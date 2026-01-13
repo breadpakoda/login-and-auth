@@ -1,6 +1,7 @@
 const express=require("express");
 const cors=require("cors");
 const mysql=require("mysql2/promise");
+const jwt=require("jsonwebtoken")
 
 const app= express();
 app.use(express.json());
@@ -23,33 +24,33 @@ startDB();
 
 
 
-app.post("/user",async(req,res)=>{
+app.post("/login",async(req,res)=>{
     const id=req.body.id;
     const password=req.body.password;
 
     // console.log(id)
     // console.log(password)
 
-const [rows] = await db.execute("select password from aaa where name=?",[id]);
+const [rows] = await db.execute("select name from aaa where name=? and password=?",[id,password]);
 
-if(rows.length>0 && rows[0].password===password){
-    console.log("Success");
-    res.json({
-        success:true
-    })
+if(rows.length===0 ){  
+    return res.status(401).json({success:false})
 }
 
-else{
-    console.log("Failed");
-    res.json({
-        success:false
-    })
-}
+const token=jwt.sign({name:rows[0].name},
+    "JWT_SECRET",
+    {expiresIn:"1h"}
+)
+console.log(rows[0].name)
+return res.json({success:true})
+
    
 
 
 
 })
+
+
 
 app.listen(5000,()=>{
     console.log("server started...")

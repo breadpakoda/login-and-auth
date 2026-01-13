@@ -11,14 +11,14 @@ function Main() {
     const handleSubmit=async(e)=>{
         e.preventDefault();
         try{
-        const response=await axios.post("http://localhost:5000/user",{
+        const response=await axios.post("http://localhost:5000/login",{
             id:id,
             password:password
         })
 
         if(response.data.success){
           setsuccess(true)
-          navigate("/dashboard")
+          
           
         }
       
