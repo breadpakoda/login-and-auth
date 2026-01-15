@@ -34,7 +34,7 @@ app.post("/login",async(req,res)=>{
 const [rows] = await db.execute("select name from aaa where name=? and password=?",[id,password]);
 
 if(rows.length===0 ){  
-    return res.status(401).json({success:false})
+    return res.json({success:false})
 }
 
 const token=jwt.sign({name:rows[0].name},
@@ -42,7 +42,9 @@ const token=jwt.sign({name:rows[0].name},
     {expiresIn:"1h"}
 )
 console.log(rows[0].name)
-return res.json({success:true})
+return res.json({success:true,
+    token
+})
 
    
 
