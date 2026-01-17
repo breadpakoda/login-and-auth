@@ -33,7 +33,7 @@ app.post("/login", async (req, res) => {
     )
 
     if (rows.length === 0) {
-      return res.status(401).json({ success: false })
+      return res.json({ success: false })
     }
 
     const token = jwt.sign(
@@ -51,6 +51,37 @@ app.post("/login", async (req, res) => {
 app.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ name: req.user.name })
 })
+
+app.post("/create",async(req,res)=>{
+  const{name , password}=req.body;
+  const [rows]=await db.execute("select name from aaa where name=?",[name]);
+  if(rows.length===0){
+    await db.execute("insert into aaa values (?,?)",[name,password]);
+
+    return res.json({
+      success:true,
+      message:"Account created successfully"
+    })
+  }
+  else{
+    return res.json({
+      success:false,
+      message:"user already exists"
+    })
+  }
+
+  
+  
+
+
+})
+
+
+
+
+
+
+
 
 app.listen(5000, () => {
   console.log("server started...")

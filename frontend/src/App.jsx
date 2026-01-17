@@ -3,6 +3,7 @@ import Main from "./assets/Pages/Main.jsx"
 import Dashboard from './assets/Pages/Dashboard.jsx'
 import {BrowserRouter , Routes , Route} from "react-router-dom"
 import ProtectedRoute from './assets/Pages/ProtectedRoute.jsx'
+import Create from "./assets/Pages/Create.jsx"
 
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
     </ProtectedRoute>
   }
 />
+
+<Route path="/create" element={<Create/>}/>
 
   </Routes>
   </BrowserRouter>
