@@ -12,7 +12,7 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    axios.get("http://localhost:5000/dashboard", {
+    axios.get(`${import.meta.env.VITE_API_URL}/dashboard`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
