@@ -9,22 +9,28 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-let db
+let db;
 
-// 🔌 DB Connection
 async function startDB() {
   try {
-   db = await mysql.createConnection(process.env.MYSQL_URL)
+    db = await mysql.createConnection({
+       host: process.env.MYSQLHOST,
+      user: process.env.MYSQLUSER,
+      password: process.env.MYSQLPASSWORD,
+      database: process.env.MYSQLDATABASE,
+      port: process.env.MYSQLPORT,
+      ssl: {
+        rejectUnauthorized: false // Important for Railway
+      }
+    });
 
-
-
-    console.log("✅ Database connected")
+    console.log("✅ MySQL connected");
   } catch (err) {
-    console.log("❌ Database connection failed:", err.message)
+    console.log("❌ DB error:", err.message);
   }
 }
 
-startDB()
+startDB();
 
 // 🔐 LOGIN
 app.post("/login", async (req, res) => {
