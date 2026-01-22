@@ -43,7 +43,7 @@ app.post("/login", async (req, res) => {
     )
 
     if (rows.length === 0) {
-      return res.status(401).json({ success: false })
+      return res.json({ success: false })
     }
 
     const token = jwt.sign(
@@ -55,7 +55,7 @@ app.post("/login", async (req, res) => {
     return res.json({ success: true, token })
   } catch (err) {
     console.log(err)
-    return res.status(500).json({ success: false })
+    return res.json({ success: false })
   }
 })
 
@@ -92,7 +92,7 @@ app.post("/create", async (req, res) => {
     })
   } catch (err) {
     console.log(err)
-    return res.status(500).json({ success: false })
+    return res.json({ success: false })
   }
 })
 
