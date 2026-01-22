@@ -14,12 +14,9 @@ let db
 // 🔌 DB Connection
 async function startDB() {
   try {
-    db = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME
-    })
+   db = await mysql.createConnection(process.env.DATABASE_URL)
+
+
     console.log("✅ Database connected")
   } catch (err) {
     console.log("❌ Database connection failed:", err.message)
