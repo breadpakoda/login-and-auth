@@ -14,7 +14,8 @@ let db
 // 🔌 DB Connection
 async function startDB() {
   try {
-   db = await mysql.createConnection(process.env.DATABASE_URL)
+   db = await mysql.createConnection(process.env.MYSQL_URL)
+
 
 
     console.log("✅ Database connected")
