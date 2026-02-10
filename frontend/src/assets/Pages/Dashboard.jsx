@@ -17,18 +17,27 @@ function Dashboard() {
         Authorization: `Bearer ${token}`
       }
     })
-    .then(res => {
-      setName(res.data.name)
-    })
-    .catch(() => {
-      // token invalid / expired
-      localStorage.removeItem("token")
-    })
+      .then(res => {
+        setName(res.data.name)
+      })
+      .catch(() => {
+        // token invalid / expired
+        localStorage.removeItem("token")
+      })
   }, [])
+
+  
 
   return (
     <div>
-      <h1>Welcome, {name}</h1>
+      <div className="">
+        <div className="">
+          <div className="">
+            <div className="border ">Hello {name}</div>
+          </div>
+         
+        </div>
+      </div>
     </div>
   )
 }

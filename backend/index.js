@@ -24,22 +24,22 @@ async function startDB() {
       }
     });
 
-    console.log("✅ MySQL connected");
+    console.log("MySQL connected");
   } catch (err) {
-    console.log("❌ DB error:", err.message);
+    console.log("DB error:", err.message);
   }
 }
 
 startDB();
 
-// 🔐 LOGIN
+// LOGIN
 app.post("/login", async (req, res) => {
   try {
-    const { id, password } = req.body
+    const { user_name, password } = req.body
 
     const [rows] = await db.execute(
-      "SELECT name FROM aaa WHERE name=? AND password=?",
-      [id, password]
+      "SELECT name FROM aaa WHERE user_name=? AND password=?",
+      [user_name, password]
     )
 
     if (rows.length === 0) {
@@ -59,19 +59,19 @@ app.post("/login", async (req, res) => {
   }
 })
 
-// 🔒 PROTECTED DASHBOARD
+//  PROTECTED DASHBOARD
 app.get("/dashboard", authMiddleware, (req, res) => {
   res.json({ name: req.user.name })
 })
 
-// 🆕 CREATE ACCOUNT
+// CREATE ACCOUNT
 app.post("/create", async (req, res) => {
   try {
-    const { name, password } = req.body
+    const {user_name,name,email, password } = req.body
 
     const [rows] = await db.execute(
-      "SELECT name FROM aaa WHERE name=?",
-      [name]
+      "SELECT name FROM aaa WHERE user_name=?",
+      [user_name]
     )
 
     if (rows.length > 0) {
@@ -82,9 +82,10 @@ app.post("/create", async (req, res) => {
     }
 
     await db.execute(
-      "INSERT INTO aaa (name, password) VALUES (?, ?)",
-      [name, password]
+      "INSERT INTO aaa(user_name,name,password,gmail) VALUES (?,?,?,?)",
+      [user_name,name,password,email]
     )
+    
 
     return res.json({
       success: true,
@@ -98,5 +99,5 @@ app.post("/create", async (req, res) => {
 
 // 🚀 START SERVER
 app.listen(process.env.PORT || 5000, () => {
-  console.log("✅ Server running")
+  console.log("Server running")
 })

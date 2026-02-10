@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Main() {
 
-  const [id, setid] = useState("")
+  const [user_name, setuser_name] = useState("")
   const [password, setpassword] = useState("")
   const [message, setmessage] = useState("")
 
@@ -21,7 +21,7 @@ function Main() {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/login`,
         {
-          id,
+          user_name,
           password
         }
       )
@@ -46,15 +46,17 @@ function Main() {
         <div className="border rounded p-5">
 
           <form onSubmit={handleSubmit}>
+            <h1 className='display-4 '>Login to account</h1>
+
 
             <div>
-              <label>Id</label>
+              <label>User Name</label>
               <input
                 className="form-control"
                 required
-                placeholder="Enter id..."
-                value={id}
-                onChange={(e) => setid(e.target.value)}
+                placeholder="Enter the user name..."
+                value={user_name}
+                onChange={(e) => setuser_name(e.target.value)}
               />
             </div>
 
