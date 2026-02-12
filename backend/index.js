@@ -41,16 +41,19 @@ app.post("/login", async (req, res) => {
     const { user_name, password } = req.body
 
     const [rows] = await db.execute(
-      "SELECT name FROM aaa WHERE user_name=? AND password=?",
+      "SELECT name,user_name FROM aaa WHERE user_name=? AND password=?",
       [user_name, password]
     )
+    
 
     if (rows.length === 0) {
       return res.json({ success: false })
     }
 
     const token = jwt.sign(
-      { name: rows[0].name },
+      { name: rows[0].name,
+        user_name:rows[0].user_name,
+       },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     )
@@ -64,7 +67,10 @@ app.post("/login", async (req, res) => {
 
 //  PROTECTED DASHBOARD
 app.get("/dashboard", authMiddleware, (req, res) => {
-  res.json({ name: req.user.name })
+  res.json({ name: req.user.name ,
+    user_name:req.user.user_name
+  },
+  )
 })
 
 // CREATE ACCOUNT
